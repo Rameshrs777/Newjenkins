@@ -1,11 +1,29 @@
 pipeline{
     agent any
   stages{
-    stage("welcome")
+    stage("Build stage")
 {
 steps{
-echo "Welcome to declarative jenkins"
+echo "Build the deployment"
 }
 }
+}
+}
+ stage("Test stage")
+{
+steps{
+echo "Testing stage"
+}
+}
+ stage("compile stage")
+{
+steps{
+echo "compile stage"
+}
+}
+ stage("Deployment stage")
+{
+steps{
+echo "Deployment stage"
 }
 }
