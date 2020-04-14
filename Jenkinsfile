@@ -7,4 +7,5 @@ steps{
 echo "Welcome to declarative jenkins"
 }
 }
-  }
+}
+}
