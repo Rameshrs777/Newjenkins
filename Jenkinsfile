@@ -8,7 +8,6 @@ echo "Build the deployment"
 }
 }
 }
-}
  stage("Test stage")
 {
 steps{
@@ -25,5 +24,6 @@ echo "compile stage"
 {
 steps{
 echo "Deployment stage"
+}
 }
 }
