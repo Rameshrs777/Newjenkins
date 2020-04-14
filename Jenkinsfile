@@ -3,8 +3,8 @@ stage('SCM checkout')
 {
   git 'https://github.com/Rameshrs777/Newjenkins'
 }
-stage('Compile-Package')
+stage('Install')
 {
-  sh 'mvn package'
+  sh 'mvn clean install'
 }
 }
