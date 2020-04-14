@@ -6,7 +6,7 @@ pipeline {
    }
    stages {
        
-stage('terraform version') {
+stage('terraform install') {
            steps {
                sh """
                    sudo yum install wget unzip;
