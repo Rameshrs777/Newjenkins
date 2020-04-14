@@ -1,15 +1,11 @@
 pipeline {
    agent any
-   environment {
-       terraform_version = '0.12.20';
-       
-   }
-   stages {
+ stages {
        
 stage('terraform install') {
            steps {
                sh """
-                   sudo yum install wget unzip;
+            sudo yum install wget unzip;
 sudo yum install wget -y;
 wget https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_linux_amd64.zip;
 sudo unzip ./terraform_0.11.13_linux_amd64.zip -d /usr/local/bin/;
