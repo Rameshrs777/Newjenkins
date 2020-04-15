@@ -12,27 +12,65 @@ pipeline {
                 sh 'echo "Started...!" '
             }
         }
+    }
         stage('git clone') {
             steps {
-                sh 'sudo rm -r *;sudo git clone https://github.com/Rameshrs777/Newjenkins.git'
+                git 'https://github.com/Rameshrs777/Newjenkins.git'
             }
         }
-        stage('terraform init') {
-            steps {
-                sh 'sudo /ec2-user/terraform init ./jenkins'
-            }
-        }
-        stage('terraform plan') {
-            steps {
-                sh 'ls ./jenkins; sudo /ec2-user/terraform plan ./jenkins'
-            }
-        }
+        stage('Install Terraform') {
+             steps {
+                   sh "sudo yum install wget zip -y"
+                   sh "cd /tmp"
+                   sh "curl -o terraform.zip https://releases.hashicorp.com/terraform/'$terraform_version'/terraform_'$terraform_version'_linux_amd64.zip"
+                   sh "unzip terraform.zip"
+                   sh "sudo mv terraform /usr/bin"
+                   sh "rm -rf terraform.zip"
+                   sh "terraform version"
+             }
+       }
+       stage('terraform init') {
+           steps {
+               sh  """
+                   pwd;ls;
+                   terraform init .
+                   """
+           }
+       }
+       stage('terraform plan') {
+           steps {
+               sh  """
+                   terraform plan .
+                   ls -l .
+                   """
+                script {
+                   timeout(time: 10, unit: 'MINUTES') {
+                      input(id: "Deploy Gate", message: "Deploy ${params.project_name}?", ok: 'Deploy')
+                   }
+               }
+           }
+       }
+       stage('terraform apply') {
+           steps {
+               sh  """
+                   terraform apply  -auto-approve .
+                   """
+           }
+       }
+       stage('Want to Destroy Resources??')  {  
+           steps {
+               script {
+                  timeout(time: 10, unit: 'MINUTES') {
+                     input(id: "Deploy Gate", message: "Want to Destroy ${params.project_name}?", ok: 'Destroy??')
+                  }
+               }
+           }
+       }
+    
         stage('terraform ended') {
             steps {
                 sh 'echo "Ended....!!"'
             }
-        }
-
-        
+        }       
     }
-}
+
