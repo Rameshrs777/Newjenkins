@@ -9,7 +9,7 @@ pipeline {
            steps {
                git branch: "master",
                
-               url: 'https://github.com/Rameshrs777/Newjenkins.git'
+               url: 'https://github.com/Rameshrs777/Newjenkins'
                
            }
        }
