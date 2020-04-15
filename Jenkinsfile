@@ -7,7 +7,7 @@ pipeline {
    stages {
        stage('checkout repo') {
            steps {
-               git branch: "*/master",
+               git branch: "master",
                
                url: 'https://github.com/Rameshrs777/Newjenkins.git'
                
