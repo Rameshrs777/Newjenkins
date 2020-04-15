@@ -5,17 +5,11 @@ pipeline {
        
    }
    stages {
-       stage('terrform version') {
-           steps {
-               
-               sh 'terraform -v'
-           }
-       }
        stage('checkout repo') {
            steps {
                git branch: "master",
                
-               url: 'https://github.com/Rameshrs777/Newjenkins'
+               url: 'https://github.com/Rameshrs777/Newjenkins.git'
                
            }
        }
