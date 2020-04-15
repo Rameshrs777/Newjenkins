@@ -1,21 +1,41 @@
 pipeline {
-  agent {
-    docker {
-      image 'hashicorp/terraform:light'
-      args '--entrypoint='
-    }
-  }
-  stages {
-    stage('Terraform Plan') { 
-      steps {
-        sh 'terraform plan -no-color -out=create.tfplan' 
-      }
-    }
-    // Optional wait for approval
-    input 'Deploy stack?'
-
-    stage ('Terraform Apply') {
-      sh "terraform --version"
-    }
-  }
+ agent any
+ 
+ stages {
+ stage(‘checkout’) {
+ steps {
+ git branch: ‘develop’, url: ‘https://github.com/Rameshrs777/Newjenkins’
+ 
+ }
+ }
+ stage(‘Set Terraform path’) {
+ steps {
+ script {
+ def tfHome = tool name: ‘Terraform’
+ env.PATH = “${tfHome}:${env.PATH}”
+ }
+ sh ‘terraform — version’
+ 
+ 
+ }
+ }
+ 
+ stage(‘Provision infrastructure’) {
+ 
+ steps {
+ dir(‘dev’)
+ {
+ sh ‘terraform init’
+ sh ‘terraform plan -out=plan’
+ // sh ‘terraform destroy -auto-approve’
+ sh ‘terraform apply plan’
+ }
+ 
+ 
+ }
+ }
+ 
+ 
+ 
+ }
 }
